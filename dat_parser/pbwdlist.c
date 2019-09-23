@@ -1,5 +1,6 @@
 // pbwdlist - 3D Pinball for Windows DAT file listing program
-// Adrien Geets
+// (C) 2019 AdrienTD
+// Licensed under MIT License
 
 #include <stdio.h>
 
@@ -57,7 +58,7 @@ int main(int argc, char *argv[])
 {
 	int g, en, es, n, et; unsigned char *p;
 
-	printf("pbwdlist - 3D Pinball for Windows DAT file listing program\nby Adrien Geets\n\n");
+	printf("pbwdlist - 3D Pinball for Windows DAT file listing program\nby AdrienTD\n\n");
 	if(argc < 2) {printf("Usage: pbwdlist FILE.DAT\n"); return 1;}
 
 	ff = fopen(argv[1], "rb");

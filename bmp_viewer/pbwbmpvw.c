@@ -1,5 +1,6 @@
 // 3D Pinball (for Windows) Bitmap Viewer
-// Adrien Geets
+// AdrienTD
+// Licensed under MIT License
 
 #include <stdio.h>
 #include <Windows.h>
@@ -42,6 +43,7 @@ char datname[256], bmpname[256];
 OPENFILENAME ofndat = {sizeof(OPENFILENAME), 0, 0, "3D Pinball DAT resource file\0*.DAT\0", NULL, 0, 1, datname, 256, NULL, 0, NULL, "Open a 3D Pinball DAT resource file", OFN_FILEMUSTEXIST|OFN_NOCHANGEDIR, 0, 0, "DAT"};
 OPENFILENAME ofnbmp = {sizeof(OPENFILENAME), 0, 0, "Windows bitmap file\0*.BMP\0", NULL, 0, 1, bmpname, 256, NULL, 0, NULL, "Import/export a bitmap", OFN_FILEMUSTEXIST|OFN_NOCHANGEDIR, 0, 0, "BMP"};
 int acbmptype = 0;
+char fileLoaded = 0;
 
 void fErr(char *text, int n)
 {
@@ -121,6 +123,7 @@ void LoadData(char *fn)
 	memcpy(acbi.bmiColors, pal, 1024);
 
 	ChangeGroup(0);
+	fileLoaded = 1;
 }
 
 int SaveData(char *fn)
@@ -285,6 +288,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_PAINT:
 			hdc = BeginPaint(hWnd, &ps);
+			if(!fileLoaded) {
+				char *pleaseopenfile = "Please open a DAT file from File > Open.";
+				TextOut(hdc, 0, 0, pleaseopenfile, strlen(pleaseopenfile));
+				EndPaint(hWnd, &ps);
+				break;
+			}
 			SetTextColor(hdc, 0xFF0000);
 			//PaintPalette(hdc);
 			_snprintf(tbuf, 127, "Group %i", acgrp);
@@ -329,12 +338,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 						MessageBox(hWnd, tbuf, title, 16);}
 					break;
 				case IDM_ABOUT:
-					MessageBox(hWnd, "3D Pinball Bitmap Viewer\nAdrien Geets\nIN DEVELOPMENT!", title, 64);
+					MessageBox(hWnd, "3D Pinball Bitmap Viewer\nAdrienTD\nIN DEVELOPMENT!", title, 64);
 					break;
 				case IDM_QUIT:
 					DestroyWindow(hWnd); break;
 			} break;
 		case WM_KEYDOWN:
+			if(!fileLoaded) break;
 			switch(wParam)
 			{
 				case VK_LEFT:		
@@ -397,12 +407,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char *cmdArgs, 
 		}
 		else	LoadData(s);
 	}
-	else LoadData("C:\\Users\\Adrien\\Downloads\\pbhack\\PINBALLa.DAT");
+	//else LoadData("C:\\Users\\Adrien\\Downloads\\pbhack\\PINBALLa.DAT");
 
 	wndclass.hIcon = LoadIcon(hInst, MIR(IDI_APPICON));
 	if(!RegisterClass(&wndclass)) fErr("Class registration failed.", -1);
-	ofndat.hwndOwner = ofnbmp.hwndOwner = hwnd = hWnd = CreateWindow(clsname, title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, NULL, hmenu = LoadMenu(hInst, MIR(IDR_APPMENU)), hInstance, NULL);
+	ofndat.hwndOwner = ofnbmp.hwndOwner = hwnd = hWnd = CreateWindowA(clsname, title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+		600, 580, NULL, hmenu = LoadMenu(hInst, MIR(IDR_APPMENU)), hInstance, NULL);
 	if(!hWnd) fErr("Window creation failed.", -2);
 	ShowWindow(hWnd, showMode);
 

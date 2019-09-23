@@ -1,17 +1,17 @@
 +-----------------------------------------------------+
 | 3D Pinball for Windows ("PARTOUT") .DAT file format |
-| Adrien Geets					      |
+| AdrienTD                                            |
 +-----------------------------------------------------+
 
 //-- Header --//
 
-+0x00:	File signature		BYTE*21
-+0x15:	App name		BYTE*50
-+0x47:	Description		BYTE*100
-+0xAB:	File size		DWORD
-+0xAF:	Number of files/groups	WORD
-+0xB1:	Size of body		DWORD
-+0xB5:	Unknown (0)		WORD
++0x00:  File signature          BYTE*21
++0x15:  App name                BYTE*50
++0x47:  Description             BYTE*100
++0xAB:  File size               DWORD
++0xAF:  Number of files/groups  WORD
++0xB1:  Size of body            DWORD
++0xB5:  Unknown (0)             WORD
 
 In 3D Pinball, the file signature is "PARTOUT(4.0)RESOURCE". The rest is
 filled with 0.
@@ -28,39 +28,39 @@ and that's all.
 
 Existing types:
 
-Type		Meaning/comments
+Type            Meaning/comments
 ---------------------------------------------------
-0		?, does not have the 32bits size value, but a 16bits value (see above).
-1		8 bpp bitmap
-3		Group name
-5		Palette (1 color is 1 DWORD, only present 1 time in PINBALL.DAT
-		with a data size of 1024 bytes for 256 colors. Some colors are 0
-		because their indexes are reserved by Windows.)
-9		String (content)
-10		Array of 16bits integer values
-11		Array of 32bits floating point values (collision box, ...)
-12		16 bpp bitmap (Heightmap?)
+0               ?, does not have the 32bits size value, but a 16bits value (see above).
+1               8 bpp bitmap
+3               Group name
+5               Palette (1 color is 1 DWORD, only present 1 time in PINBALL.DAT
+                with a data size of 1024 bytes for 256 colors. Some colors are 0
+                because their indexes are reserved by Windows.)
+9               String (content)
+10              Array of 16bits integer values
+11              Array of 32bits floating point values (collision box, ...)
+12              16 bpp bitmap (Heightmap?)
 
 
 //-- 8bpp bitmap data header --//
-+0:	Unknown (0)	BYTE
-+1:	Width		WORD
-+3:	Height		WORD
-+5:	X position	WORD
-+7	Y position	WORD
-+9:	Size of bitmap	DWORD
-+13:	Unknown (1)	BYTE
-+14:	Bitmap data	BYTE*(DWORD@+9)
++0:     Unknown (0)     BYTE
++1:     Width           WORD
++3:     Height          WORD
++5:     X position      WORD
++7      Y position      WORD
++9:     Size of bitmap  DWORD
++13:    Unknown (1)     BYTE
++14:    Bitmap data     BYTE*(DWORD@+9)
 
 
 //-- 16bpp bitmap data header --//
-+0:	Width		WORD
-+2:	Height		WORD
-+4:	Pitch/2		WORD
-+6:	Unknown (0)	DWORD
-+10:	Unknown	(0)	WORD
-+12:	Unknown	(80)	WORD
-+14:	Bitmap data	BYTE*(DWORD@+9)
++0:     Width           WORD
++2:     Height          WORD
++4:     Pitch/2         WORD
++6:     Unknown (0)     DWORD
++10:    Unknown (0)     WORD
++12:    Unknown (80)    WORD
++14:    Bitmap data     BYTE*(DWORD@+9)
 
 
 //-- Pinball 3D remarkable groups --//
@@ -113,11 +113,11 @@ I haven't read it completely, but some informations helped me a bit.
 Another thing: There's nearly nothing about hacking the game on the web (even
 though the Space Cadet game bundled with Windows is very popular).
 What I've only seen when doing a (Google) web search is the 'hidden test'
-cheat code.
+cheat code. [as of 2017 or even less]
 
 
 //-- Contact --//
 
 Any questions? Contact me at [see my GitHub profile @AdrienTD for contacts] .
 
-Adrien Geets :)
+AdrienTD :)
